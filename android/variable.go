@@ -20,6 +20,8 @@ import (
 	"runtime"
 	"strings"
 
+	"gzosp/soong/android"
+
 	"github.com/google/blueprint/proptools"
 )
 
@@ -114,6 +116,9 @@ type variableProperties struct {
 			Static_libs  []string
 			Srcs         []string
 		}
+
+		// include Gzosp variables
+		Gzosp android.Product_variables
 	} `android:"arch_variant"`
 }
 
@@ -221,6 +226,7 @@ type productVariables struct {
 	Override_rs_driver *string `json:",omitempty"`
 
 	DeviceKernelHeaders []string `json:",omitempty"`
+
 	DistDir             *string  `json:",omitempty"`
 
 	ExtraVndkVersions []string `json:",omitempty"`
@@ -230,6 +236,9 @@ type productVariables struct {
 	PgoAdditionalProfileDirs []string `json:",omitempty"`
 
 	VendorVars map[string]map[string]string `json:",omitempty"`
+
+	// include Gzosp variables
+	Gzosp android.ProductVariables
 }
 
 func boolPtr(v bool) *bool {
