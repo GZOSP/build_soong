@@ -20,8 +20,6 @@ import (
 	"runtime"
 	"strings"
 
-	"gzosp/soong/android"
-
 	"github.com/google/blueprint/proptools"
 )
 
@@ -133,9 +131,6 @@ type variableProperties struct {
 			Srcs         []string `android:"arch_variant"`
 			Exclude_srcs []string `android:"arch_variant"`
 		} `android:"arch_variant"`
-
-		// include Gzosp variables
-		Gzosp android.Product_variables
 	} `android:"arch_variant"`
 }
 
@@ -342,8 +337,6 @@ type productVariables struct {
 
 	BoardUsesRecoveryAsBoot *bool `json:",omitempty"`
 
-	// include Gzosp variables
-	Gzosp android.ProductVariables
 }
 
 func boolPtr(v bool) *bool {
@@ -600,10 +593,6 @@ func createVariableProperties(moduleTypeProps []interface{}, productVariables in
 func createVariablePropertiesType(moduleTypeProps []interface{}, productVariables interface{}) reflect.Type {
 	typ, _ := proptools.FilterPropertyStruct(reflect.TypeOf(productVariables),
 		func(field reflect.StructField, prefix string) (bool, reflect.StructField) {
-			if strings.HasPrefix(prefix, "Product_variables.Gzosp") {
-				// Convert Product_variables.Gzosp.Foo to Gzosp.Foo
-				_, prefix = splitPrefix(prefix)
-			}
 
 			// Filter function, returns true if the field should be in the resulting struct
 			if prefix == "" {
